@@ -1,5 +1,6 @@
 # uvicorn main:app --reload
 # http://127.0.0.1:8000/docs
+# http://127.0.0.1:8000/redoc
 # https://github.com/artemonsh/fastapi_crash_course
 from contextlib import asynccontextmanager
 
