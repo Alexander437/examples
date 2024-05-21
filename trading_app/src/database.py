@@ -2,8 +2,8 @@ from typing import AsyncGenerator
 
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 from config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
 

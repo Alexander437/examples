@@ -13,8 +13,10 @@
 # docker run -p 5432:5432 --name pg_trading -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d postgres:13.3
 # docker run -p 6379:6379 --name redis -d redis:latest
 # docker run -e 'PGADMIN_DEFAULT_EMAIL=admin@admin.admin' -e 'PGADMIN_DEFAULT_PASSWORD=admin' -d dpage/pgadmin4
+# docker run -p 6000:5432 --name pg_test -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d postgres:13.3
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
+from contextlib import asynccontextmanager
 from fastapi_cache.backends.redis import RedisBackend
 
 from redis import asyncio as aioredis
@@ -24,8 +26,17 @@ from operations.router import router as router_operations
 from tasks.router import router as router_tasks
 from config import REDIS_HOST, REDIS_PORT
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf-8", decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+    yield
+
+
 app = FastAPI(
     title="Trading App",
+    lifespan=lifespan
 )
 
 app.include_router(
@@ -42,9 +53,3 @@ app.include_router(
 
 app.include_router(router_operations)
 app.include_router(router_tasks)
-
-
-@app.on_event("startup")
-async def startup_event():
-    redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf-8", decode_responses=True)
-    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")

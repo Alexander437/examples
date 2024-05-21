@@ -7,3 +7,6 @@ python-dotenv
 sqlalchemy
 celery
 flower
+
+pytest
+pytest-asyncio

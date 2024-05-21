@@ -9,6 +9,12 @@ DB_PASS = os.getenv("DB_PASS")
 DB_NAME = os.getenv("DB_NAME")
 DB_PORT = os.getenv("DB_PORT")
 
+DB_HOST_TEST = os.getenv("DB_HOST_TEST")
+DB_USER_TEST = os.getenv("DB_USER_TEST")
+DB_PASS_TEST = os.getenv("DB_PASS_TEST")
+DB_NAME_TEST = os.getenv("DB_NAME_TEST")
+DB_PORT_TEST = os.getenv("DB_PORT_TEST")
+
 SECRET = os.getenv("SECRET")
 REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PORT = os.getenv("REDIS_PORT")

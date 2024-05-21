@@ -10,8 +10,8 @@ class UserRead(schemas.BaseUser[int]):
     is_superuser: bool | None = False
     is_verified: bool | None = False
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:  # Config
+        from_attributes = True  # orm_mode = True
 
 
 class UserCreate(schemas.BaseUserCreate):
