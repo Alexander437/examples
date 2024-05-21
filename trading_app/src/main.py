@@ -1,24 +1,20 @@
 # uvicorn main:app --reload
 # https://github.com/artemonsh/fastapi_course
+# https://github.com/zhanymkanov/fastapi-best-practices
+#
 # http://127.0.0.1:8000/docs
 # http://127.0.0.1:8000/redoc
 # docker run -p 5432:5432 --name pg_trading -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d postgres:13.3
 # docker run -e 'PGADMIN_DEFAULT_EMAIL=admin@admin.admin' -e 'PGADMIN_DEFAULT_PASSWORD=admin' -d dpage/pgadmin4
-from fastapi import FastAPI, Depends
-from fastapi_users import FastAPIUsers
+from fastapi import FastAPI
 
 from auth.auth import auth_backend
-from auth.database import User
-from auth.manager import get_user_manager
+from auth.base_config import fastapi_users
 from auth.schemas import UserCreate, UserRead
+from operations.router import router as router_operations
 
 app = FastAPI(
     title="Trading App",
-)
-
-fastapi_users = FastAPIUsers[User, int](
-    get_user_manager,
-    [auth_backend],
 )
 
 app.include_router(
@@ -33,14 +29,4 @@ app.include_router(
     tags=["auth"],
 )
 
-current_user = fastapi_users.current_user()
-
-
-@app.get("/protected-route")
-def protected_route(user: User = Depends(current_user)):
-    return f"Hello, {user.email}"
-
-
-@app.get("/unprotected-route")
-def unprotected_route():
-    return "Hello, World!"
+app.include_router(router_operations)
