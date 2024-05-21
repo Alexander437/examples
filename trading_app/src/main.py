@@ -20,12 +20,14 @@ from contextlib import asynccontextmanager
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
 from auth.base_config import fastapi_users, auth_backend
 from auth.schemas import UserCreate, UserRead
 from operations.router import router as router_operations
 from tasks.router import router as router_tasks
 from config import REDIS_HOST, REDIS_PORT
+from pages.router import router as router_pages
 
 
 @asynccontextmanager
@@ -39,6 +41,8 @@ app = FastAPI(
     title="Trading App",
     lifespan=lifespan
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
@@ -54,6 +58,7 @@ app.include_router(
 
 app.include_router(router_operations)
 app.include_router(router_tasks)
+app.include_router(router_pages)
 
 # Cors - откуда разрешено отправлять запрос
 origins = [
