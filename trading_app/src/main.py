@@ -1,4 +1,10 @@
+# cd src
 # uvicorn main:app --reload
+#
+# celery -A tasks.tasks:celery worker
+# celery -A tasks.tasks:celery flower
+# http://0.0.0.0:5555
+#
 # https://github.com/artemonsh/fastapi_course
 # https://github.com/zhanymkanov/fastapi-best-practices
 #
@@ -12,10 +18,11 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 
 from redis import asyncio as aioredis
-from auth.auth import auth_backend
-from auth.base_config import fastapi_users
+from auth.base_config import fastapi_users, auth_backend
 from auth.schemas import UserCreate, UserRead
 from operations.router import router as router_operations
+from tasks.router import router as router_tasks
+from config import REDIS_HOST, REDIS_PORT
 
 app = FastAPI(
     title="Trading App",
@@ -23,7 +30,7 @@ app = FastAPI(
 
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth/jwt",
+    prefix="/auth",
     tags=["auth"],
 )
 
@@ -34,9 +41,10 @@ app.include_router(
 )
 
 app.include_router(router_operations)
+app.include_router(router_tasks)
 
 
 @app.on_event("startup")
 async def startup_event():
-    redis = aioredis.from_url("redis://172.17.0.3", encoding="utf-8", decode_responses=True)
+    redis = aioredis.from_url(f"redis://{REDIS_HOST}:{REDIS_PORT}", encoding="utf-8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
