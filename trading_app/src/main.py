@@ -28,6 +28,7 @@ from operations.router import router as router_operations
 from tasks.router import router as router_tasks
 from config import REDIS_HOST, REDIS_PORT
 from pages.router import router as router_pages
+from chat.router import router as router_chat
 
 
 @asynccontextmanager
@@ -59,6 +60,7 @@ app.include_router(
 app.include_router(router_operations)
 app.include_router(router_tasks)
 app.include_router(router_pages)
+app.include_router(router_chat)
 
 # Cors - откуда разрешено отправлять запрос
 origins = [
