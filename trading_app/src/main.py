@@ -14,6 +14,25 @@
 # docker run -p 6379:6379 --name redis -d redis:latest
 # docker run -e 'PGADMIN_DEFAULT_EMAIL=admin@admin.admin' -e 'PGADMIN_DEFAULT_PASSWORD=admin' -d dpage/pgadmin4
 # docker run -p 6000:5432 --name pg_test -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -d postgres:13.3
+#
+# Развернуть можно на Render,
+# Дополнительно изучить:
+# опциональные параметры пути
+# SQLAlchemy
+# FastAPI Users | Custom ()
+# SQLAdmin
+# Celery beat, lifespan
+# Логироование ELK, Sentry
+# fastapi-versioning
+# prometheus-fastapi-instrumentator и обзор эндпоинта /metrics
+# Что такое Nginx, зачем он нужен и как используется
+# Zabbix
+# !FastUI
+# slowapi - защита от Ddos
+# fastapi_profiler - profiling speed optimization
+# паттерн "репозиторий" + слой сервисов https://www.youtube.com/watch?v=8Im74b55vFc&list=PLeLN0qH0-mCVQKZ8-W1LhxDcVlWtTALCS&index=20
+# unit of work - обеспечить атомарность (все или ничего)  https://github.com/artemonsh/fastapi-onion-architecture
+# dataclasses может быть быстрее Pydantic
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from contextlib import asynccontextmanager
