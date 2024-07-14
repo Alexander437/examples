@@ -22,7 +22,6 @@ class CMCHTTPClient(HTTPClient):
     @alru_cache
     async def get_currency(self, currency_id: int):
         async with self._session.get(
-
             params={"id": currency_id}
         ) as resp:
             result = await resp.json()
