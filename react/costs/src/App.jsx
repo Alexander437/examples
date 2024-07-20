@@ -1,22 +1,24 @@
 import Costs from "./components/Costs/Costs.jsx";
 import NewCost from "./components/NewCost/NewCost.jsx";
+import {useState} from "react";
+
+const INITIAL_COSTS = [
+    {
+        id: 'c1',
+        date: new Date(2021, 2, 12),
+        description: "Холодильник",
+        amount: 999.99
+    },
+    {
+        id: 'c2',
+        date: new Date(2021, 2, 12),
+        description: "Компьютер",
+        amount: 999.99
+    }
+]
 
 function App() {
-
-  const costs = [
-      {
-          id: 'c1',
-          date: new Date(2021, 2, 12),
-          description: "Холодильник",
-          amount: 999.99
-      },
-      {
-          id: 'c2',
-          date: new Date(2021, 2, 12),
-          description: "Компьютер",
-          amount: 999.99
-      }
-  ]
+  const [costs, setCosts] = useState(INITIAL_COSTS);
 
   // return React.createElement(
   //     "div",
@@ -26,8 +28,10 @@ function App() {
   // );
 
     const addCostHandler = (cost) => {
-      console.log(cost);
-      console.log('App component');
+      // setCosts([cost, ...costs]); - можут получать неактуальные состояния
+      setCosts(prevCosts => {
+          return [cost, ...prevCosts];
+      });
     }
   return (
     <>

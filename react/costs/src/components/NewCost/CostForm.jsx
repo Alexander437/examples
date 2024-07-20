@@ -13,7 +13,7 @@ function CostForm(props) {
     const submitHandler = (event) => {
         event.preventDefault();
         const costData = {
-            name: name,
+            description: name,
             amount: amount,
             date: new Date(date),
         };
@@ -21,8 +21,9 @@ function CostForm(props) {
         setName('');
         setAmount('');
         setDate('');
-
     }
+
+
     // const [userInput, setUserInput] = useState({
     //     name: '',
     //     amount: '',
@@ -34,19 +35,7 @@ function CostForm(props) {
     //         ...prevState,
     //         name: event.target.value,
     //     }
-    // });
-    // const amountChangeHandler = (event) => setUserInput((prevState) => {
-    //     return {
-    //         ...prevState,
-    //         amount: event.target.value,
-    //     }
-    // });
-    // const dateChangeHandler = (event) => setUserInput((prevState) => {
-    //     return {
-    //         ...prevState,
-    //         date: event.target.value,
-    //     }
-    // });
+    // });.....
     return (
         <form onSubmit={submitHandler}>
             <div className="new-cost__controls">
@@ -68,6 +57,7 @@ function CostForm(props) {
 
                 <div className="new-cost__actions">
                     <button type="submit">Добавить расход</button>
+                    <button type="button" onClick={props.onCancel}>Отмена</button>
                 </div>
             </div>
         </form>
